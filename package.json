@@ -1,0 +1,25 @@
+{
+  "name": "image-sharpmin",
+  "version": "0.0.1",
+  "description": "Super simple combination of `imagemin` and `sharp` to create optimized images ready for srcSet.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cibulka/image-sharpmin.git"
+  },
+  "author": "Petr Cibulka <cibulka.me@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cibulka/image-sharpmin/issues"
+  },
+  "dependencies": {
+    "imagemin": "^7.0.1",
+    "imagemin-jpegtran": "^6.0.0",
+    "imagemin-pngquant": "^8.0.0",
+    "sharp": "^0.23.3"
+  },
+  "homepage": "https://github.com/cibulka/image-sharpmin#readme"
+}
