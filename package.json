@@ -1,6 +1,6 @@
 {
   "name": "image-sharpmin",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Super simple combination of `imagemin` and `sharp` to create optimized images ready for srcSet.",
   "main": "index.js",
   "scripts": {
