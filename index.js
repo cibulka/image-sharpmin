@@ -1,44 +1,46 @@
-const path = require('path');
+const path = require("path");
 
-const imagemin = require('imagemin');
-const imageminJpegtran = require('imagemin-jpegtran');
-const imageminPngquant = require('imagemin-pngquant');
-const sharp = require('sharp');
+const imagemin = require("imagemin");
+const imageminJpegtran = require("imagemin-jpegtran");
+const imageminPngquant = require("imagemin-pngquant");
+const sharp = require("sharp");
 
 const IMAGE_SIZES = [640, 768, 1024, 1366, 1600, 1920];
 
 (async () => {
-    const result = [];
+  const result = [];
 
-    const files = await imagemin(['public/image/src/*.{jpg,jpeg,png}'], {
-        destination: 'public/image/dist',
-        plugins: [
-            imageminJpegtran(),
-            imageminPngquant({
-                quality: [0.6, 0.8]
-            })
-        ]
-    });
+  const pathArgIndex = process.argv.indexOf("--path");
+  const path = pathArgIndex !== -1 ? pathArgIndex : "public/image/src";
 
-    files.forEach(file => {
-        const dir = path.dirname(file.destinationPath);
-        const fileExt = path.extname(file.destinationPath);
-        const fileName = path.basename(file.destinationPath, fileExt);
+  const files = await imagemin([`${path}/*.{jpg,jpeg,png}`], {
+    destination: "public/image/dist",
+    plugins: [
+      imageminJpegtran(),
+      imageminPngquant({
+        quality: [0.6, 0.8]
+      })
+    ]
+  });
 
-        IMAGE_SIZES.forEach(width => {
-            sharp(file.data)
-                .resize(width, null, { withoutEnlargement: true })
-                .toFile(`${dir}/${fileName}-${width}${fileExt}`, (err, info) => {
-                    if (err) {
-                        console.warn(err);
-                    } else {
-                        console.log(`${fileName}${fileExt}: ${info.width}/${info.height}`);
-                    }
-                })
-            ;
+  files.forEach(file => {
+    const dir = path.dirname(file.destinationPath);
+    const fileExt = path.extname(file.destinationPath);
+    const fileName = path.basename(file.destinationPath, fileExt);
+
+    IMAGE_SIZES.forEach(width => {
+      sharp(file.data)
+        .resize(width, null, { withoutEnlargement: true })
+        .toFile(`${dir}/${fileName}-${width}${fileExt}`, (err, info) => {
+          if (err) {
+            console.warn(err);
+          } else {
+            console.log(`${fileName}${fileExt}: ${info.width}/${info.height}`);
+          }
         });
     });
+  });
 
-    console.log(`DONE!`);
-    //=> [{data: <Buffer 89 50 4e …>, destinationPath: 'build/images/foo.jpg'}, …]
+  console.log(`DONE!`);
+  //=> [{data: <Buffer 89 50 4e …>, destinationPath: 'build/images/foo.jpg'}, …]
 })();
